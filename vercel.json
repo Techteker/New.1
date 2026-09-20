@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "buildCommand": "",
   "outputDirectory": "www",
-  "cleanUrls": true
+  "cleanUrls": true,
+  "trailingSlash": false
 }
