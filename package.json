@@ -1,0 +1,8 @@
+{
+  "name": "home-workout-pro",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {"build": "node scripts/build.mjs", "cap:sync": "npx cap sync android", "cap:open": "npx cap open android"},
+  "dependencies": {"@capacitor/android":"^7.4.3","@capacitor/core":"^7.4.3","@capacitor/haptics":"^7.0.1","@capacitor/status-bar":"^7.0.1"},
+  "devDependencies": {"@capacitor/cli":"^7.4.3"}
+}
