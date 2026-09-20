@@ -2,10 +2,12 @@ name: Build Android APK
 on:
   push:
     branches: ["main"]
+    paths-ignore:
+      - "downloads/**"
   workflow_dispatch:
     inputs:
       commit_apk:
-        description: "Copy generated APK to downloads/Home-Workout-Pro.apk"
+        description: "Copy generated installable debug APK to downloads/Home-Workout-Pro.apk"
         required: false
         default: true
         type: boolean
@@ -29,21 +31,21 @@ jobs:
         run: npx cap add android
       - name: Sync web app
         run: npx cap sync android
-      - name: Build release APK
+      - name: Build installable debug APK
         working-directory: android
-        run: ./gradlew assembleRelease
+        run: ./gradlew assembleDebug
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: Home-Workout-Pro-APK
-          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
       - name: Copy APK into repository
         if: github.event_name == 'push' || inputs.commit_apk == true
         run: |
           mkdir -p downloads
-          cp android/app/build/outputs/apk/release/app-release-unsigned.apk downloads/Home-Workout-Pro.apk
+          cp android/app/build/outputs/apk/debug/app-debug.apk downloads/Home-Workout-Pro.apk
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add downloads/Home-Workout-Pro.apk
-          git diff --cached --quiet || git commit -m "chore: update Android APK"
+          git diff --cached --quiet || git commit -m "chore: update installable Android APK"
           git push
