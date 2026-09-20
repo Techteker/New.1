@@ -1,22 +1,40 @@
-# Home Workout Pro
+# Home Workout Pro / FitFlow
 
-Complete home fitness app built with Capacitor for Android. The UI follows the supplied fitness-app references: orange/black/white, workout cards, dashboard, workout runner, exercise animation/video mode, progress, profile and settings.
+A complete mobile-first home workout system built from the supplied fitness-app references. It is a static/PWA web app with a Capacitor Android wrapper.
 
-## Included
-- Onboarding: goal, fitness level and daily time
-- Dashboard: today's workout, streak, calories and recommendations
-- 5 workout programs and 50+ exercises
-- Exercise detail: Animation / Video tabs, instructions and muscle focus
-- Guided workout runner: timer, pause, previous, skip and completion summary
-- Progress and achievements with local persistence
-- Profile, reminders UI, dark theme and reset controls
-- Offline-first PWA assets
+## Full system
+- Onboarding: goal, fitness level and daily workout time
+- Personalized home dashboard
+- Workout library with 50+ exercises and 5 programs
+- Search and category filters
+- Exercise detail pages
+- Animation / Video-style guided demonstration mode
+- Full workout runner with timer, pause/resume, previous, skip and progress
+- Workout completion summary
+- Calories, minutes, workouts and streak tracking
+- Progress chart, weekly goal and achievements
+- Profile and editable preferences
+- Reminder and dark-theme controls
+- LocalStorage persistence for offline use
+- Responsive mobile UI
+- PWA manifest/service worker
 - Capacitor Android wrapper
-- GitHub Actions workflow for Android APK
+- GitHub Actions installable debug APK build
+- Vercel static deployment configured with `www` as the output directory
 
-## APK
-Push to `main` to build the Android APK. The workflow uploads an APK artifact and can also copy it to `downloads/Home-Workout-Pro.apk`.
+## Run on Vercel
+Deploy the repository normally. `vercel.json` points Vercel to the `www` directory, so no custom build command is required.
 
-Animations are original procedural illustrations. Real filmed exercise videos should only be added when properly licensed.
+## Android APK
+Every push to `main` triggers `.github/workflows/android.yml`. The workflow builds an installable debug APK, uploads it as a GitHub Actions artifact, and copies it to `downloads/Home-Workout-Pro.apk`. `paths-ignore` prevents the APK commit from recursively triggering another build.
+
+## Demonstrations
+Exercise demonstrations are original procedural canvas animations designed to work offline. The Video tab is a guided video-style mode; filmed MP4 demonstrations are not bundled because exercise footage requires appropriately licensed media.
+
+## Project
+- Web entry: `www/index.html`
+- App logic: `www/app.js`
+- Styles: `www/styles.css`
+- Capacitor config: `capacitor.config.json`
 
 Copyright © 2026 PROXIMAX
