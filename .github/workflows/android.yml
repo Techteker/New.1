@@ -1,0 +1,50 @@
+name: Build Android APK
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+    inputs:
+      commit_apk:
+        description: "Copy generated APK to downloads/Home-Workout-Pro.apk"
+        required: false
+        default: true
+        type: boolean
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Add Android platform
+        run: npx cap add android
+      - name: Sync web app
+        run: npx cap sync android
+      - name: Build release APK
+        working-directory: android
+        run: ./gradlew assembleRelease
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Home-Workout-Pro-APK
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+      - name: Copy APK into repository
+        if: github.event_name == 'push' || inputs.commit_apk == true
+        run: |
+          mkdir -p downloads
+          cp android/app/build/outputs/apk/release/app-release-unsigned.apk downloads/Home-Workout-Pro.apk
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add downloads/Home-Workout-Pro.apk
+          git diff --cached --quiet || git commit -m "chore: update Android APK"
+          git push
